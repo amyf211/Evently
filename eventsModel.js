@@ -39,14 +39,26 @@ async function createEvent(organizationId, eventName, startDate, endDate, curren
     });
         return event.data;
     }catch(error){
-        console.log('error', error);
+        console.log('error:', error);
     }
 }
 
-(async () => {
-    const organizations = await getOrganizations();
-    // console.log(organizations)
-    const eventCreated = await createEvent(organizations.organizations[0].id, 'Coding with Amy', new Date(new Date().getTime()+15*60000).toISOString().replace(/\.\d{3}/,''), new Date(new Date().getTime()+30*60000).toISOString().replace(/\.\d{3}/,''), 'GBP');
-    console.log(eventCreated);
-})();
+async function getEvents(organizationId) {
+    try {
+        const response = await axios.get(`https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.API_KEY}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.log('error:', error);
+    }
+}
+
+module.exports = {
+    getOrganizations,
+    createEvent,
+    getEvents
+};
 
