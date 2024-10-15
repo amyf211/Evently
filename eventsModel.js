@@ -1,48 +1,42 @@
 require('dotenv').config();
 const axios = require('axios');
 
-async function getOrganizations(){
-    try{
-        const organizations = await axios.get(`https://www.eventbriteapi.com/v3/users/me/organizations`,{
-            headers:{
-                'Authorization': `Bearer ${process.env.API_KEY}`
+// Function to create a new event
+async function createEvent(organizationId, eventName, startDateUtc, endDateUtc, currency) {
+    try {
+        const response = await axios.post(
+            `https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`,
+            {
+                event: {
+                    name: {
+                        html: eventName
+                    },
+                    start: {
+                        timezone: "Europe/London",
+                        utc: startDateUtc // Use the correctly formatted UTC date
+                    },
+                    end: {
+                        timezone: "Europe/London",
+                        utc: endDateUtc // Use the correctly formatted UTC date
+                    },
+                    currency: currency
+                }
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${process.env.API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
             }
-
-        })
-        return organizations.data;
-    }catch(error){
-        console.log('error', error);
-    } 
-}
-
-async function createEvent(organizationId, eventName, startDate, endDate, currency){
-    try{
-        const event = await axios.post(`https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`,{
-        event:{
-            name:{
-                html:eventName
-            },
-            start:{
-                'timezone':'Europe/London',
-                'utc':startDate
-            },
-            end:{
-                'timezone':'Europe/London',
-                'utc':endDate
-            },
-            currency
-        }
-    }, {
-        headers:{
-            'Authorization': `Bearer ${process.env.API_KEY}`
-        }
-    });
-        return event.data;
-    }catch(error){
-        console.log('error:', error);
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error creating event:', error.response.data || error.message); // Log specific error messages for better debugging
+        throw error; // Re-throw error to handle it in the controller
     }
 }
 
+// Function to get events for a specific organization
 async function getEvents(organizationId) {
     try {
         const response = await axios.get(`https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`, {
@@ -52,13 +46,14 @@ async function getEvents(organizationId) {
         });
         return response.data;
     } catch (error) {
-        console.log('error:', error);
+        console.error('Error fetching events:', error.response.data || error.message); // Log specific error messages for better debugging
+        throw error; // Re-throw error to handle it in the controller
     }
 }
 
 module.exports = {
-    getOrganizations,
     createEvent,
-    getEvents
+    getEvents,
 };
+
 

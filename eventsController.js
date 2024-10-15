@@ -1,21 +1,14 @@
 // controllers/eventController.js
-const { getOrganizations, createEvent, getEvents } = require('./eventsModel');
+const { createEvent, getEvents } = require('./eventsModel');
 
-// Controller to get organizations
-async function getOrganizationsController(req, res) {
-    try {
-        const organizations = await getOrganizations();
-        res.json(organizations);
-    } catch (error) {
-        res.status(500).send('Error fetching organizations');
-    }
-}
-
-// Controller to get events for the first organization
+// Controller to get events for a specific organization
 async function getEventsController(req, res) {
+    const { organizationId } = req.query; // Get organizationId from the query parameters
+    if (!organizationId) {
+        return res.status(400).send('Organization ID is required'); // Handle missing organizationId
+    }
+
     try {
-        const organizations = await getOrganizations();
-        const organizationId = organizations.organizations[0].id; // Use the first organization's ID
         const events = await getEvents(organizationId);
         res.json(events);
     } catch (error) {
@@ -23,20 +16,22 @@ async function getEventsController(req, res) {
     }
 }
 
-// Controller to create a new event
+
 async function createEventController(req, res) {
     const { organizationId, eventName, startDate, endDate, currency } = req.body;
 
     try {
-        const newEvent = await createEvent(organizationId, eventName, startDate, endDate, currency);
-        res.json(newEvent);
+        const startDateUtc = new Date(startDate).toISOString().split('.')[0] + 'Z';
+        const endDateUtc = new Date(endDate).toISOString().split('.')[0] + 'Z';
+        
+        const newEvent = await createEvent(organizationId, eventName, startDateUtc, endDateUtc, currency);
+        res.status(201).json(newEvent);
     } catch (error) {
         res.status(500).send('Error creating event');
     }
 }
 
 module.exports = {
-    getOrganizationsController,
     getEventsController,
-    createEventController
+    createEventController,
 };
