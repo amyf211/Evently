@@ -2,10 +2,10 @@ require('dotenv').config();
 const axios = require('axios');
 
 // Function to create a new event
-async function createEvent(organizationId, eventName, startDateUtc, endDateUtc, currency) {
+async function createEvent(eventName, startDateUtc, endDateUtc, currency) {
     try {
         const response = await axios.post(
-            `https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`,
+            `https://www.eventbriteapi.com/v3/organizations/2398883364363/events/`,
             {
                 event: {
                     name: {
@@ -37,9 +37,9 @@ async function createEvent(organizationId, eventName, startDateUtc, endDateUtc, 
 }
 
 // Function to get events for a specific organization
-async function getEvents(organizationId) {
+async function getEvents() {
     try {
-        const response = await axios.get(`https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`, {
+        const response = await axios.get(`https://www.eventbriteapi.com/v3/organizations/2398883364363/events/`, {
             headers: {
                 'Authorization': `Bearer ${process.env.API_KEY}`
             }
@@ -51,9 +51,24 @@ async function getEvents(organizationId) {
     }
 }
 
+async function getEventById(eventId) {
+    try {
+        const response = await axios.get(`https://www.eventbriteapi.com/v3/events/${eventId}/`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.API_KEY}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching event by ID: ${eventId}`, error.response?.data || error.message);
+        throw error;
+    }
+}
+
 module.exports = {
     createEvent,
     getEvents,
+    getEventById,  // Export the new function
 };
 
 

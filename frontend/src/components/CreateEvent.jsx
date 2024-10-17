@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CreateEvent = () => {
-  // State to store the form data
+  // State to store the form data (now includes summary)
   const [eventData, setEventData] = useState({
-    organizationId: '',
     eventName: '',
     startDate: '',
     endDate: '',
     currency: '',
+    summary: '', // New summary field
   });
 
   // Handle input changes
@@ -24,17 +24,23 @@ const CreateEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Hardcoded organizationId
+    const organizationId = '2398883364363';
+
+    // Include hardcoded organizationId in the data being sent
+    const dataToSend = { ...eventData, organizationId };
+
     try {
-      const response = await axios.post('http://localhost:5000/api/create-events', eventData);
+      const response = await axios.post('http://localhost:5000/api/create-events', dataToSend);
       console.log('Event created successfully:', response.data);
 
       // Reset form after successful submission
       setEventData({
-        organizationId: '',
         eventName: '',
         startDate: '',
         endDate: '',
         currency: '',
+        summary: '', // Reset the new summary field
       });
     } catch (error) {
       console.error('Error creating event:', error);
@@ -45,19 +51,6 @@ const CreateEvent = () => {
     <div className="create-event">
       <h2>Create New Event</h2>
       <form onSubmit={handleSubmit}>
-        {/* Organization ID Field */}
-        <div>
-          <label htmlFor="organizationId">Organization ID:</label>
-          <input
-            type="text"
-            id="organizationId"
-            name="organizationId"
-            value={eventData.organizationId}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
         {/* Event Name Field */}
         <div>
           <label htmlFor="eventName">Event Name:</label>
@@ -110,6 +103,20 @@ const CreateEvent = () => {
           />
         </div>
 
+        {/* Event Summary Field (New) */}
+        <div>
+          <label htmlFor="summary">Event Summary (140 characters max):</label>
+          <input
+            type="text"
+            id="summary"
+            name="summary"
+            value={eventData.summary}
+            onChange={handleInputChange}
+            maxLength="140" // Limit to 140 characters
+            required
+          />
+        </div>
+
         <button type="submit">Create Event</button>
       </form>
     </div>
@@ -117,4 +124,6 @@ const CreateEvent = () => {
 };
 
 export default CreateEvent;
+
+
 

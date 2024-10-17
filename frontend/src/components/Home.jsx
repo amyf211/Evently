@@ -1,12 +1,23 @@
 import React from 'react';
+import { useAuth } from '../contexts/authContext';
 
-function Home() {
+const Home = () => {
+    const { currentUser } = useAuth();
+
+    const getUsername = (email) => {
+        if (email) {
+            const [username] = email.split('@');
+            return username;
+        }
+        return '';
+    };
 
     return (
-        
-           <h2>Welcome to Evently!</h2>
+        <div>
+            <h1>Welcome to Evently, {currentUser && getUsername(currentUser.email)}!</h1>
+            <h3>Featured Events:</h3>
+        </div>
+    );
+};
 
-       )
-}
-
-export default Home
+export default Home;

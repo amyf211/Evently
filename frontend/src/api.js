@@ -8,7 +8,12 @@ export const fetchEvents = async () => {
   return response.data;
 };
 
-// export const createEvent = async (eventData) => {
-//   const response = await axios.post(`${API_URL}/events`, eventData);
-//   return response.data;
-// };
+export const fetchEventById = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/events/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching event:', error);
+    throw error;
+  }
+};
