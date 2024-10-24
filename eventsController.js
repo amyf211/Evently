@@ -1,19 +1,19 @@
-// controllers/eventController.js
-const { createEvent, getEvents } = require('./eventsModel');
+const { createEvent, getEvents, getEventById } = require('./eventsModel'); // Eventbrite model
 
-const organizationId = 2398883364363;
+const organizationId = 2398883364363;  // Eventbrite Organization ID
 
-// Controller to get events for a specific organization
+// Controller to fetch all events for a specific organization
 async function getEventsController(req, res) {
     try {
         const events = await getEvents(organizationId);
         res.json(events);
     } catch (error) {
+        console.error('Error fetching events:', error);
         res.status(500).send('Error fetching events');
     }
 }
 
-
+// Controller to create a new event (for Eventbrite only)
 async function createEventController(req, res) {
     const { eventName, startDate, endDate, currency } = req.body;
 
@@ -21,26 +21,29 @@ async function createEventController(req, res) {
         const startDateUtc = new Date(startDate).toISOString().split('.')[0] + 'Z';
         const endDateUtc = new Date(endDate).toISOString().split('.')[0] + 'Z';
         
-        const newEvent = await createEvent(organizationId, eventName, startDateUtc, endDateUtc, currency);
+        const newEvent = await createEvent(eventName, startDateUtc, endDateUtc, currency);
         res.status(201).json(newEvent);
     } catch (error) {
+        console.error('Error creating event:', error);
         res.status(500).send('Error creating event');
     }
 }
 
+// Controller to fetch an event by ID
 async function getEventByIdController(req, res) {
-    const eventId = req.params.id;
-
+    const { id } = req.params; // Get event ID from the URL
     try {
-        const event = await getEventById(eventId);
+        const event = await getEventById(id);
         res.json(event);
     } catch (error) {
-        res.status(500).send('Error fetching event by ID');
+        console.error(`Error fetching event with ID ${id}:`, error);
+        res.status(500).send(`Error fetching event with ID ${id}`);
     }
 }
 
 module.exports = {
     getEventsController,
     createEventController,
-    getEventByIdController,  // Export the new controller
+    getEventByIdController,
 };
+

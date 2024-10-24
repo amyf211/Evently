@@ -10,10 +10,20 @@ export const fetchEvents = async () => {
 
 export const fetchEventById = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/events/${id}`);
+      const response = await axios.get(`${API_URL}/events/${id}`);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching event:', error);
+      throw error; // Rethrow the error for handling in the component
+  }
+};
+
+export const addEventToGoogleCalendar = async (event) => {
+  try {
+    const response = await axios.post('/api/google-calendar/add-event', { event });
     return response.data;
   } catch (error) {
-    console.error('Error fetching event:', error);
+    console.error('Error adding event to Google Calendar:', error);
     throw error;
   }
 };

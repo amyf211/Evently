@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
+const { google } = require('googleapis');
 
 // Function to create a new event
 async function createEvent(eventName, startDateUtc, endDateUtc, currency) {
@@ -51,6 +52,7 @@ async function getEvents() {
     }
 }
 
+// Function to fetch an individual event by ID
 async function getEventById(eventId) {
     try {
         const response = await axios.get(`https://www.eventbriteapi.com/v3/events/${eventId}/`, {
@@ -60,7 +62,7 @@ async function getEventById(eventId) {
         });
         return response.data;
     } catch (error) {
-        console.error(`Error fetching event by ID: ${eventId}`, error.response?.data || error.message);
+        console.error(`Error fetching event with ID ${eventId}:`, error.response?.data || error.message);
         throw error;
     }
 }
@@ -68,7 +70,7 @@ async function getEventById(eventId) {
 module.exports = {
     createEvent,
     getEvents,
-    getEventById,  // Export the new function
+    getEventById,
 };
 
 

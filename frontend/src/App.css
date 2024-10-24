@@ -37,3 +37,19 @@ body{
   font-size: xx-large;
   font-weight: 700;
 }
+
+.login-title {
+  color: #0cc0df;
+  font-size: 70px;
+  text-align: center;
+}
+
+.google-button {
+  width: 200px;
+  height: 50px;
+  background-color: #0cc0df;
+  color: white;
+  border-style: none;
+  text-align: center;
+  font-size: medium;
+}

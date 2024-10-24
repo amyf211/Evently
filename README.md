@@ -12,7 +12,7 @@ To run the project, open the terminal and type 'node listen.js'. This should set
 Below are the test accounts for the Evently platform and the organisation ID if needed, although this is currently hardcoded into the app.
 
 **Admin Login:**   
-libakid932@paxnw.com   
+rarata1225@jameagle.com  
 Evently321.
 
 **User Login:**   

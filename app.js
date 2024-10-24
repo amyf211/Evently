@@ -1,20 +1,21 @@
+// app.js
 const express = require('express');
 const cors = require('cors');
 const {
     getEventsController,
     createEventController,
-    getEventByIdController
+    getEventByIdController,
 } = require('./eventsController');
 
 const app = express();
 
-// Middleware
-app.use(cors());          // Enable CORS
-app.use(express.json());  // Parse incoming JSON requests
+app.use(cors());
+app.use(express.json());
 
-// Individual routes
-app.get('/api/events', getEventsController);               // Route to get events
-app.post('/api/create-events', createEventController);     // Route to create a new event
-app.get('/events/:id', getEventByIdController);
+// Existing event routes
+app.get('/api/events', getEventsController);               
+app.post('/api/create-events', createEventController);     
+app.get('/api/events/:id', getEventByIdController);
+
 
 module.exports = app;
