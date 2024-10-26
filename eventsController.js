@@ -15,19 +15,21 @@ async function getEventsController(req, res) {
 
 // Controller to create a new event (for Eventbrite only)
 async function createEventController(req, res) {
-    const { eventName, startDate, endDate, currency } = req.body;
+    const { eventName, startDate, endDate, currency, summary } = req.body;
 
     try {
         const startDateUtc = new Date(startDate).toISOString().split('.')[0] + 'Z';
         const endDateUtc = new Date(endDate).toISOString().split('.')[0] + 'Z';
         
-        const newEvent = await createEvent(eventName, startDateUtc, endDateUtc, currency);
+        // Pass the summary to the createEvent function
+        const newEvent = await createEvent(eventName, startDateUtc, endDateUtc, currency, summary);
         res.status(201).json(newEvent);
     } catch (error) {
         console.error('Error creating event:', error);
         res.status(500).send('Error creating event');
     }
 }
+
 
 // Controller to fetch an event by ID
 async function getEventByIdController(req, res) {

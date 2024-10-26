@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom'; // Import Navigate for redirect
 import axios from 'axios';
+import { useAuth } from '../contexts/authContext'; // Import Auth Context
 
 const CreateEvent = () => {
+  const { isAdmin, userLoggedIn } = useAuth(); // Access isAdmin and userLoggedIn
+
+  // Redirect non-admin users to the home page or a "Not Authorized" page
+  if (!userLoggedIn) return <Navigate to="/login" replace />;
+  if (!isAdmin) return <Navigate to="/not-authorized" replace />;
+
   // State to store the form data (now includes summary)
   const [eventData, setEventData] = useState({
     eventName: '',
@@ -29,6 +37,8 @@ const CreateEvent = () => {
 
     // Include hardcoded organizationId in the data being sent
     const dataToSend = { ...eventData, organizationId };
+
+    console.log("Data to send:", dataToSend);
 
     try {
       const response = await axios.post('http://localhost:5000/api/create-events', dataToSend);
@@ -124,6 +134,3 @@ const CreateEvent = () => {
 };
 
 export default CreateEvent;
-
-
-

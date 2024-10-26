@@ -3,7 +3,7 @@ const axios = require('axios');
 const { google } = require('googleapis');
 
 // Function to create a new event
-async function createEvent(eventName, startDateUtc, endDateUtc, currency) {
+async function createEvent(eventName, startDateUtc, endDateUtc, currency, summary) {
     try {
         const response = await axios.post(
             `https://www.eventbriteapi.com/v3/organizations/2398883364363/events/`,
@@ -20,7 +20,10 @@ async function createEvent(eventName, startDateUtc, endDateUtc, currency) {
                         timezone: "Europe/London",
                         utc: endDateUtc // Use the correctly formatted UTC date
                     },
-                    currency: currency
+                    currency: currency,
+                    description: { // Include the summary as the description
+                        html: summary // Assuming Eventbrite API expects the description in this format
+                    }
                 }
             },
             {
@@ -36,6 +39,7 @@ async function createEvent(eventName, startDateUtc, endDateUtc, currency) {
         throw error; // Re-throw error to handle it in the controller
     }
 }
+
 
 // Function to get events for a specific organization
 async function getEvents() {
