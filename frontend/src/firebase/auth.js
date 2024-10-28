@@ -1,18 +1,26 @@
+// In your authentication file where doSignInWithGoogle is defined
+
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { useAuth } from '../contexts/authContext';
 
 export const doSignInWithGoogle = async () => {
+    const { setAuthData } = useAuth();  // Access setAuthData from context
+
     try {
         const provider = new GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/calendar');
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
-        // Reference to this user's document in Firestore
+        // Retrieve the Google OAuth access token
+        const accessToken = GoogleAuthProvider.credentialFromResult(result).accessToken;
+        setAuthData(accessToken);  // Store accessToken in context
+
+        // Store user details in Firestore if new
         const userRef = doc(db, 'users', user.uid);
-
         const userDoc = await getDoc(userRef);
-
         if (!userDoc.exists()) {
             await setDoc(userRef, {
                 uid: user.uid,
@@ -28,6 +36,7 @@ export const doSignInWithGoogle = async () => {
         throw error;
     }
 };
+
 
 export const doSignOut = () => {
     return auth.signOut();

@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { doSignInWithGoogle } from '../firebase/auth';
 import { useAuth } from '../contexts/authContext';
 
-
 const Login = () => {
-    const { userLoggedIn } = useAuth();
+    const { userLoggedIn, doSignInWithGoogle } = useAuth();
     const [isSigningIn, setIsSigningIn] = useState(false);
 
-    const onGoogleSignIn = async (e) => {
-        e.preventDefault();
-        if (!isSigningIn) {
-            setIsSigningIn(true);
-            try {
-                await doSignInWithGoogle();
-            } catch (error) {
-                console.error('Google Sign-In failed:', error);
-            } finally {
-                setIsSigningIn(false);
-            }
+    const onGoogleSignIn = async () => {
+        setIsSigningIn(true);
+        try {
+            await doSignInWithGoogle();
+            console.log("Signed in successfully");
+        } catch (error) {
+            console.error("Google Sign-In failed:", error);
+        } finally {
+            setIsSigningIn(false);
         }
     };
 
+    // Redirect if the user is logged in
+    if (userLoggedIn) {
+        return <Navigate to="/home" replace={true} />;
+    }
+
     return (
         <div>
-            {userLoggedIn && <Navigate to={'/home'} replace={true} />}
             <main>
                 <div>
-                    <h1 className='login-title'>Evently</h1>
+                    <h1 className="login-title">Evently</h1>
                     <button
-                        className='google-button'
+                        className="google-button"
                         disabled={isSigningIn}
                         onClick={onGoogleSignIn}
                     >
@@ -42,4 +42,3 @@ const Login = () => {
 };
 
 export default Login;
-

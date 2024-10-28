@@ -1,7 +1,7 @@
 # Welcome to Evently: The Home of Music Events!
 As a creator, you can add your events to the evently platform, making them available for users to view.
 
-As a user, you can search events and add them directly to your google calendar.
+As a user, you can browse events and add them directly to your google calendar.
 
 ---
 
@@ -12,11 +12,11 @@ To run the project, open the terminal and type 'node listen.js'. This should set
 Below are the test accounts for the Evently platform and the organisation ID if needed, although this is currently hardcoded into the app.
 
 **Admin Login:**   
-rarata1225@jameagle.com  
+amyfisher211@gmail.com 
 Evently321.
 
 **User Login:**   
-hehokik161@jameagle.com   
+amydreamlandfiles@gmail.com 
 Evently321.
 
 Organisation ID: 2398883364363
