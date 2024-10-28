@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../contexts/authContext'; // Import useAuth to get the token
+import { useAuth } from '../contexts/authContext';
 import { fetchEventById } from '../api';
 
 const EventPage = () => {
     const { id } = useParams();
-    const { accessToken } = useAuth(); // Get the token from context
+    const { accessToken } = useAuth();
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -36,7 +36,7 @@ const EventPage = () => {
             summary: event.name.text,
             start: {
                 dateTime: event.start.local,
-                timeZone: 'Europe/London', // Adjust as needed
+                timeZone: 'Europe/London',
             },
             end: {
                 dateTime: event.end.local,
@@ -48,7 +48,7 @@ const EventPage = () => {
             const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${accessToken}`, // Include token in header
+                    Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(eventPayload),

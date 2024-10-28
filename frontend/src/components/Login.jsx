@@ -18,7 +18,6 @@ const Login = () => {
         }
     };
 
-    // Redirect if the user is logged in
     if (userLoggedIn) {
         return <Navigate to="/home" replace={true} />;
     }

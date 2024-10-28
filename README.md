@@ -13,7 +13,7 @@ Below are the test accounts for the Evently platform and the organisation ID if 
 
 **Admin Login:**   
 amyfisher211@gmail.com 
-Evently321.
+1b5QsBxDUF
 
 **User Login:**   
 amydreamlandfiles@gmail.com 

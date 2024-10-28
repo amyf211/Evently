@@ -1,12 +1,10 @@
-// In your authentication file where doSignInWithGoogle is defined
-
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { useAuth } from '../contexts/authContext';
 
 export const doSignInWithGoogle = async () => {
-    const { setAuthData } = useAuth();  // Access setAuthData from context
+    const { setAuthData } = useAuth();
 
     try {
         const provider = new GoogleAuthProvider();
@@ -14,11 +12,9 @@ export const doSignInWithGoogle = async () => {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
-        // Retrieve the Google OAuth access token
         const accessToken = GoogleAuthProvider.credentialFromResult(result).accessToken;
-        setAuthData(accessToken);  // Store accessToken in context
+        setAuthData(accessToken);
 
-        // Store user details in Firestore if new
         const userRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userRef);
         if (!userDoc.exists()) {
