@@ -1,7 +1,6 @@
-// components/EventPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchEventById } from '../api'; // Make sure this is a named import
+import { fetchEventById } from '../api';
 
 const EventPage = () => {
     const { id } = useParams();
@@ -41,10 +40,3 @@ const EventPage = () => {
 };
 
 export default EventPage;
-
-
-
-
-
-
-

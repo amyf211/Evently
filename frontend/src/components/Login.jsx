@@ -12,7 +12,7 @@ const Login = () => {
         if (!isSigningIn) {
             setIsSigningIn(true);
             try {
-                await doSignInWithGoogle(); // Calls the function that signs in and updates Firestore
+                await doSignInWithGoogle();
             } catch (error) {
                 console.error('Google Sign-In failed:', error);
             } finally {

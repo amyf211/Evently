@@ -1,8 +1,7 @@
-const { createEvent, getEvents, getEventById } = require('./eventsModel'); // Eventbrite model
+const { createEvent, getEvents, getEventById } = require('./eventsModel');
 
-const organizationId = 2398883364363;  // Eventbrite Organization ID
+const organizationId = 2398883364363;
 
-// Controller to fetch all events for a specific organization
 async function getEventsController(req, res) {
     try {
         const events = await getEvents(organizationId);
@@ -13,27 +12,23 @@ async function getEventsController(req, res) {
     }
 }
 
-// Controller to create a new event (for Eventbrite only)
 async function createEventController(req, res) {
-    const { eventName, startDate, endDate, currency, summary } = req.body;
+    const { eventName, startDate, endDate, currency } = req.body;
 
     try {
         const startDateUtc = new Date(startDate).toISOString().split('.')[0] + 'Z';
         const endDateUtc = new Date(endDate).toISOString().split('.')[0] + 'Z';
         
-        // Pass the summary to the createEvent function
-        const newEvent = await createEvent(eventName, startDateUtc, endDateUtc, currency, summary);
+        const newEvent = await createEvent(eventName, startDateUtc, endDateUtc, currency);
         res.status(201).json(newEvent);
     } catch (error) {
         console.error('Error creating event:', error);
         res.status(500).send('Error creating event');
     }
-}
+};
 
-
-// Controller to fetch an event by ID
 async function getEventByIdController(req, res) {
-    const { id } = req.params; // Get event ID from the URL
+    const { id } = req.params;
     try {
         const event = await getEventById(id);
         res.json(event);
@@ -41,7 +36,7 @@ async function getEventByIdController(req, res) {
         console.error(`Error fetching event with ID ${id}:`, error);
         res.status(500).send(`Error fetching event with ID ${id}`);
     }
-}
+};
 
 module.exports = {
     getEventsController,

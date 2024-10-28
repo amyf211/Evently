@@ -15,7 +15,7 @@ const Home = () => {
     return (
         <div>
             <h1>Welcome to Evently, {currentUser && getUsername(currentUser.email)}!</h1>
-            <h3>Featured Event:</h3>
+            {/* <h3>Featured Event:</h3> */}
         </div>
     );
 };

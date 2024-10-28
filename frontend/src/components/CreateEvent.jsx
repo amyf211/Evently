@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom'; // Import Navigate for redirect
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../contexts/authContext'; // Import Auth Context
+import { useAuth } from '../contexts/authContext';
 
 const CreateEvent = () => {
-  const { isAdmin, userLoggedIn } = useAuth(); // Access isAdmin and userLoggedIn
+  const { isAdmin, userLoggedIn } = useAuth();
 
-  // Redirect non-admin users to the home page or a "Not Authorized" page
   if (!userLoggedIn) return <Navigate to="/login" replace />;
-  if (!isAdmin) return <Navigate to="/not-authorized" replace />;
 
-  // State to store the form data (now includes summary)
   const [eventData, setEventData] = useState({
     eventName: '',
     startDate: '',
     endDate: '',
     currency: '',
-    summary: '', // New summary field
+    // summary: '',
   });
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEventData((prevData) => ({
@@ -28,14 +24,11 @@ const CreateEvent = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Hardcoded organizationId
     const organizationId = '2398883364363';
 
-    // Include hardcoded organizationId in the data being sent
     const dataToSend = { ...eventData, organizationId };
 
     console.log("Data to send:", dataToSend);
@@ -44,13 +37,12 @@ const CreateEvent = () => {
       const response = await axios.post('http://localhost:5000/api/create-events', dataToSend);
       console.log('Event created successfully:', response.data);
 
-      // Reset form after successful submission
       setEventData({
         eventName: '',
         startDate: '',
         endDate: '',
         currency: '',
-        summary: '', // Reset the new summary field
+        // summary: '',
       });
     } catch (error) {
       console.error('Error creating event:', error);
@@ -61,7 +53,7 @@ const CreateEvent = () => {
     <div className="create-event">
       <h2>Create New Event</h2>
       <form onSubmit={handleSubmit}>
-        {/* Event Name Field */}
+
         <div>
           <label htmlFor="eventName">Event Name:</label>
           <input
@@ -74,7 +66,6 @@ const CreateEvent = () => {
           />
         </div>
 
-        {/* Start Date Field */}
         <div>
           <label htmlFor="startDate">Start Date and Time:</label>
           <input
@@ -87,7 +78,6 @@ const CreateEvent = () => {
           />
         </div>
 
-        {/* End Date Field */}
         <div>
           <label htmlFor="endDate">End Date and Time:</label>
           <input
@@ -100,7 +90,6 @@ const CreateEvent = () => {
           />
         </div>
 
-        {/* Currency Field */}
         <div>
           <label htmlFor="currency">Currency:</label>
           <input
@@ -113,8 +102,7 @@ const CreateEvent = () => {
           />
         </div>
 
-        {/* Event Summary Field (New) */}
-        <div>
+        {/* <div>
           <label htmlFor="summary">Event Summary (140 characters max):</label>
           <input
             type="text"
@@ -122,10 +110,10 @@ const CreateEvent = () => {
             name="summary"
             value={eventData.summary}
             onChange={handleInputChange}
-            maxLength="140" // Limit to 140 characters
+            maxLength="140"
             required
           />
-        </div>
+        </div> */}
 
         <button type="submit">Create Event</button>
       </form>

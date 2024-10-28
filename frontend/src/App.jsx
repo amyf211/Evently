@@ -1,9 +1,7 @@
-// App.js
 import './App.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './contexts/authContext'; // Import AuthProvider
-import { GoogleCalendarProvider } from './contexts/googleCalendarContext'// Import Google Calendar Provider
+import { AuthProvider } from './contexts/authContext';
 import Header from './components/Header';
 import Home from './components/Home';
 import Events from './components/Events';
@@ -14,8 +12,7 @@ import EventPage from './components/EventPage';
 
 const App = () => {
   return (
-    <AuthProvider> {/* Wrap your components with AuthProvider */}
-      <GoogleCalendarProvider> {/* Wrap with Google Calendar Provider */}
+    <AuthProvider>
         <Header />
         <Routes>
           <Route path="/" element={<Login />} />
@@ -26,7 +23,6 @@ const App = () => {
           <Route path="/create-event" element={<CreateEvent />} />
           <Route path="/events/:id" element={<EventPage />} />
         </Routes>
-      </GoogleCalendarProvider>
     </AuthProvider>
   );
 };

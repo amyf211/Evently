@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { fetchEvents } from '../api';
-import { Link } from 'react-router-dom'; // Adjust the path to your api.js
+import { Link } from 'react-router-dom';
 
 
 const Events = () => {
-  const [events, setEvents] = useState([]); // Initialize as an empty array
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const getEvents = async () => {
     try {
-      const response = await fetchEvents(); // Fetch the events
-      console.log('Fetched Response:', response); // Log the response to see its structure
+      const response = await fetchEvents();
+      console.log('Fetched Response:', response);
       
       if (response.events && Array.isArray(response.events)) {
-        setEvents(response.events); // Set the events state
+        setEvents(response.events);
       } else {
         throw new Error('Fetched data is not in the expected format');
       }
@@ -26,11 +26,11 @@ const Events = () => {
   };
 
   useEffect(() => {
-    getEvents(); // Fetch events when the component mounts
+    getEvents();
   }, []);
 
   if (loading) return <div>Loading events...</div>;
-  if (error) return <div>Error loading events: {error}</div>;
+  if (error) return <div>Error loading events</div>;
 
   return (
     <div>
@@ -38,7 +38,6 @@ const Events = () => {
       <ul>
         {events.map(event => (
           <li key={event.id}>
-            {/* Make the event name a clickable link to the event details page */}
             <Link to={`/events/${event.id}`}>
               {event.name.text}
             </Link>

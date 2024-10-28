@@ -21,13 +21,11 @@ export function AuthProvider({ children }) {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
     
-                // Fetch the user's Firestore document to get the 'admin' property
                 const userDocRef = doc(db, 'users', user.uid);
                 try {
                     const userDoc = await getDoc(userDocRef);
                     if (userDoc.exists()) {
                         const isAdminValue = userDoc.data().isAdmin || false;
-                        console.log("isAdmin from Firestore:", isAdminValue); // Log for debugging
                         setIsAdmin(isAdminValue);
                     } else {
                         setIsAdmin(false);
@@ -44,7 +42,7 @@ export function AuthProvider({ children }) {
             setLoading(false);
         });
     
-        return unsubscribe; // Unsubscribe on cleanup
+        return unsubscribe;
     }, []);
     
 

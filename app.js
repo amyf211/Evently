@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const cors = require('cors');
 const {
@@ -12,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Existing event routes
 app.get('/api/events', getEventsController);               
 app.post('/api/create-events', createEventController);     
 app.get('/api/events/:id', getEventByIdController);

@@ -2,7 +2,6 @@ require('dotenv').config();
 const axios = require('axios');
 const { google } = require('googleapis');
 
-// Function to create a new event
 async function createEvent(eventName, startDateUtc, endDateUtc, currency, summary) {
     try {
         const response = await axios.post(
@@ -14,16 +13,16 @@ async function createEvent(eventName, startDateUtc, endDateUtc, currency, summar
                     },
                     start: {
                         timezone: "Europe/London",
-                        utc: startDateUtc // Use the correctly formatted UTC date
+                        utc: startDateUtc
                     },
                     end: {
                         timezone: "Europe/London",
-                        utc: endDateUtc // Use the correctly formatted UTC date
+                        utc: endDateUtc
                     },
                     currency: currency,
-                    description: { // Include the summary as the description
-                        html: summary // Assuming Eventbrite API expects the description in this format
-                    }
+                    // description: { 
+                    //     html: summary 
+                    // }
                 }
             },
             {
@@ -35,13 +34,11 @@ async function createEvent(eventName, startDateUtc, endDateUtc, currency, summar
         );
         return response.data;
     } catch (error) {
-        console.error('Error creating event:', error.response.data || error.message); // Log specific error messages for better debugging
-        throw error; // Re-throw error to handle it in the controller
+        console.error('Error creating event:', error.response.data || error.message);
+        throw error;
     }
 }
 
-
-// Function to get events for a specific organization
 async function getEvents() {
     try {
         const response = await axios.get(`https://www.eventbriteapi.com/v3/organizations/2398883364363/events/`, {
@@ -51,12 +48,11 @@ async function getEvents() {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching events:', error.response.data || error.message); // Log specific error messages for better debugging
-        throw error; // Re-throw error to handle it in the controller
+        console.error('Error fetching events:', error.response.data || error.message);
+        throw error;
     }
 }
 
-// Function to fetch an individual event by ID
 async function getEventById(eventId) {
     try {
         const response = await axios.get(`https://www.eventbriteapi.com/v3/events/${eventId}/`, {
