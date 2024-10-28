@@ -8,6 +8,7 @@ export const doSignInWithGoogle = async () => {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
+        // Reference to this user's document in Firestore
         const userRef = doc(db, 'users', user.uid);
 
         const userDoc = await getDoc(userRef);

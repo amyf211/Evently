@@ -2,6 +2,8 @@ import './App.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/authContext';
+
+
 import Header from './components/Header';
 import Home from './components/Home';
 import Events from './components/Events';
@@ -12,6 +14,7 @@ import EventPage from './components/EventPage';
 
 const App = () => {
   return (
+    
     <AuthProvider>
         <Header />
         <Routes>

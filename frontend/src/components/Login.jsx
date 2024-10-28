@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { doSignInWithGoogle } from '../firebase/auth';
 import { useAuth } from '../contexts/authContext';
 
+
 const Login = () => {
     const { userLoggedIn } = useAuth();
     const [isSigningIn, setIsSigningIn] = useState(false);
