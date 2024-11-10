@@ -46,7 +46,7 @@ const EventPage = () => {
         const eventDetails = {
             summary: name.text,
             description: description.text,
-            htmlLink: `http://localhost:5173/event/${id}`, // link to the event in your app
+            htmlLink: `https://evently-km2e.onrender.com/event/${id}`, // link to the event in your app
             start: { dateTime: start.local },
             end: { dateTime: end.local },
         };

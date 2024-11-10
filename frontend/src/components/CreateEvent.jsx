@@ -34,7 +34,7 @@ const CreateEvent = () => {
     console.log("Data to send:", dataToSend);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/create-events', dataToSend);
+      const response = await axios.post('https://evently-km2e.onrender.com/api/create-events', dataToSend);
       console.log('Event created successfully:', response.data);
 
       setEventData({
