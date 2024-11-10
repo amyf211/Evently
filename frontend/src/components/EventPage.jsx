@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/authContext';
 import { fetchEventById } from '../api';
+import axios from 'axios';
 
 const EventPage = () => {
     const { id } = useParams();
@@ -27,40 +28,35 @@ const EventPage = () => {
     }, [id]);
 
     const addToGoogleCalendar = async () => {
+        console.log(accessToken)
+
         if (!accessToken) {
             console.error('No access token available');
             return;
         }
 
-        const eventPayload = {
-            summary: event.name.text,
-            start: {
-                dateTime: event.start.local,
-                timeZone: 'Europe/London',
-            },
-            end: {
-                dateTime: event.end.local,
-                timeZone: 'Europe/London',
-            },
+        const { name, start, end, description } = event;
+
+        const url = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        };
+
+        const eventDetails = {
+            summary: name.text,
+            description: description.text,
+            htmlLink: `http://localhost:5173/event/${id}`, // link to the event in your app
+            start: { dateTime: start.local },
+            end: { dateTime: end.local },
         };
 
         try {
-            const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(eventPayload),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to add event: ${response.statusText}`);
-            }
-
-            console.log('Event added to Google Calendar');
+            await axios.post(url, eventDetails, { headers });
+            console.log("Event added to Google Calendar");
         } catch (error) {
-            console.error('Failed to add event:', error);
+            console.error("Failed to add event to Google Calendar:", error);
+            setError("A problem occurred when adding to Calendar :(");
         }
     };
 

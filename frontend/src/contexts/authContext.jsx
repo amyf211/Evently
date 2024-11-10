@@ -1,12 +1,37 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase/firebase';
-import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
 export function useAuth() {
     return useContext(AuthContext);
+}
+
+export async function getGoogleAuthorisation() {
+    try {
+        const provider = new GoogleAuthProvider();
+        provider.addScope("https://www.googleapis.com/auth/calendar");
+
+        const result = await signInWithPopup(auth, provider);
+        const { email } = result.user;
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (!credential) {
+            return { error: true };
+        }
+
+        const token = credential.accessToken;
+
+        return {
+            email,
+            token,
+            error: false,
+        };
+    } catch (err) {
+        console.error("Error during Google authorisation:", err);
+        return { error: true };
+    }
 }
 
 export function AuthProvider({ children }) {
@@ -17,43 +42,39 @@ export function AuthProvider({ children }) {
     const [accessToken, setAccessToken] = useState(null);
 
     const doSignInWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/calendar');
-
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            const token = await user.getIdToken();
-
-            setCurrentUser(user);
-            setAccessToken(token);
-            setUserLoggedIn(true);
-
-            const userDocRef = doc(db, 'users', user.uid);
-            const userDoc = await getDoc(userDocRef);
-            setIsAdmin(userDoc.exists() ? userDoc.data().isAdmin : false);
-        } catch (error) {
-            console.error('Error during Google Sign-In:', error);
-            throw error;
+        const authResult = await getGoogleAuthorisation();
+        
+        if (authResult.error) {
+            console.error("Google Sign-In failed.");
+            return;
         }
+
+        const { email, token } = authResult;
+
+        setAccessToken(token);
+        setUserLoggedIn(true);
+
+        // Fetch user data from Firestore if needed
+        const userDocRef = doc(db, 'users', email);  // Assuming email is used as the identifier in Firestore
+        const userDoc = await getDoc(userDocRef);
+        setIsAdmin(userDoc.exists() ? userDoc.data().isAdmin : false);
+
+        setCurrentUser({ email });
     };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setLoading(true);
             if (user) {
-
-                const token = await user.getIdToken();
+                const token = await user.getIdToken(true);
                 setAccessToken(token);
                 setCurrentUser(user);
                 setUserLoggedIn(true);
-
 
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
                 setIsAdmin(userDoc.exists() ? userDoc.data().isAdmin : false);
             } else {
-
                 setCurrentUser(null);
                 setUserLoggedIn(false);
                 setIsAdmin(false);
@@ -80,3 +101,4 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
+

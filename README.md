@@ -3,11 +3,11 @@ As a creator, you can add your events to the evently platform, making them avail
 
 As a user, you can browse events and add them directly to your google calendar.
 
----
+## Cloning the Repo
 
 To run the project, open the terminal and type 'node listen.js'. This should set the server running. Next, open a second terminal, type 'cd frontend' and then 'npm run dev' which should run the app. Hold ctrl/cmd and click the link shown after 'Local:'.
 
----
+## Accounts
 
 Below are the test accounts for the Evently platform and the organisation ID if needed, although this is currently hardcoded into the app.
 
