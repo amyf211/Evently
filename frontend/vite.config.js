@@ -1,5 +1,7 @@
 // vite.config.js
-export default {
+import { defineConfig } from 'vite';
+
+export default defineConfig({
   server: {
     proxy: {
       '/api': {
@@ -9,6 +11,12 @@ export default {
       },
     },
   },
-};
+  build: {
+    rollupOptions: {
+      external: ['@react-oauth/google'],
+    },
+  },
+});
+
 
 
