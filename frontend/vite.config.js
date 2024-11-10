@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -13,10 +12,14 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@react-oauth/google'],
+      external: [
+        'firebase/auth', // If you're providing Firebase externally
+        '@react-oauth/google', // If using OAuth externally or via CDN
+      ],
     },
   },
 });
+
 
 
 
