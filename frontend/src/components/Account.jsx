@@ -3,15 +3,21 @@ import { useAuth } from '../contexts/authContext';
 import { useNavigate } from "react-router-dom";
 
 function Account() {
-    const navigate = useNavigate()
-    const { currentUser } = useAuth()
+    const navigate = useNavigate();
+    const { currentUser, doSignOut } = useAuth();
+
+    const handleLogout = async () => {
+        await doSignOut();  // Call the doSignOut function from context
+        navigate('/login');  // Redirect to the login page
+    };
+
     return (
-            <>
-                <h2>Account</h2>
-                <p>You are currently logged in as {currentUser.email}</p>
-                <button onClick={() => { doSignOut().then(() => { navigate('/login')})}}>Logout</button>
-            </>
-       )
+        <>
+            <h2>Account</h2>
+            <p>You are currently logged in as {currentUser.email}</p>
+            <button onClick={handleLogout}>Logout</button>
+        </>
+    );
 }
 
-export default Account
+export default Account;
