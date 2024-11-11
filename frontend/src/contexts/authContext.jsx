@@ -1,7 +1,7 @@
 // authContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
-import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 const AuthContext = createContext();
@@ -62,19 +62,6 @@ export function AuthProvider({ children }) {
     setCurrentUser({ email });
   };
 
-  // New function for signing out
-  const doSignOut = async () => {
-    try {
-      await signOut(auth);
-      setCurrentUser(null);
-      setUserLoggedIn(false);
-      setIsAdmin(false);
-      setAccessToken(null);
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
@@ -99,6 +86,18 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
+  const doSignOut = async () => {
+    try {
+      await signOut(auth);
+      setCurrentUser(null);
+      setUserLoggedIn(false);
+      setIsAdmin(false);
+      setAccessToken(null);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   const value = {
     currentUser,
     userLoggedIn,
@@ -115,3 +114,4 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
