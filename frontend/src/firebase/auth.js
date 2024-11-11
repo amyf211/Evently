@@ -1,8 +1,8 @@
 // auth.js
 import { auth, db } from "./firebase";
 import { useAuth } from "../contexts/authContext";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 export const doSignInWithGoogle = async () => {
   const { setAuthData } = useAuth();
