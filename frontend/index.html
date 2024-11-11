@@ -1,45 +1,13 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/assets/headphones.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Evently</title>
-
-  <!-- Firebase CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"></script>
-
-  <!-- Initialize Firebase -->
-  <script type="module">
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC04b-XYc3zfYYZv4tpbeQzn98rVk7Uir8",
-      authDomain: "evently-7faad.firebaseapp.com",
-      projectId: "evently-7faad",
-      storageBucket: "evently-7faad.appspot.com",
-      messagingSenderId: "811762733485",
-      appId: "1:811762733485:web:da2160fc400593b3fbd124",
-      measurementId: "G-QB5KRRDPBC"
-    };
-
-    // Initialize Firebase App
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // Export Firebase instances globally for use in the app
-    window.firebaseApp = app;
-    window.firebaseAuth = auth;
-    window.firebaseDb = db;
-  </script>
-
-  <!-- Google OAuth CDN -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/headphones.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evently</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

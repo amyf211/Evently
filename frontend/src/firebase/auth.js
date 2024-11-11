@@ -1,24 +1,25 @@
-import { useAuth } from '../contexts/authContext';
+// auth.js
+import { auth, db } from "../firebase";
+import { useAuth } from "../contexts/authContext";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const doSignInWithGoogle = async () => {
   const { setAuthData } = useAuth();
 
   try {
-    // Access the GoogleAuthProvider and other Firebase functions globally
-    const provider = new window.firebaseAuth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/calendar');
-
-    const result = await window.firebaseAuth().signInWithPopup(provider);
+    const provider = new GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/calendar");
+    const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    const accessToken = window.firebaseAuth.GoogleAuthProvider.credentialFromResult(result).accessToken;
+    const accessToken = GoogleAuthProvider.credentialFromResult(result).accessToken;
     setAuthData(accessToken);
 
-    const userRef = window.firebaseDb.doc(`users/${user.uid}`);
-    const userDoc = await userRef.get();
-    
-    if (!userDoc.exists) {
-      await userRef.set({
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
@@ -26,15 +27,9 @@ export const doSignInWithGoogle = async () => {
       });
     }
 
-    return { user, isAdmin: userDoc.exists ? userDoc.data().isAdmin : false };
+    return { user, isAdmin: userDoc.exists() ? userDoc.data().isAdmin : false };
   } catch (error) {
-    console.error('Error during Google Sign-In:', error);
+    console.error("Error during Google Sign-In:", error);
     throw error;
   }
-};
-
-
-
-export const doSignOut = () => {
-    return auth.signOut();
 };

@@ -1,4 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+// authContext.js
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -8,14 +12,12 @@ export function useAuth() {
 
 export async function getGoogleAuthorisation() {
   try {
-    // Use Google OAuth directly from the global object provided by the CDN
-    const provider = new window.firebaseAuth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/calendar");
 
-    const result = await window.firebaseAuth().signInWithPopup(provider);
+    const result = await signInWithPopup(auth, provider);
     const { email } = result.user;
-    const credential = window.firebaseAuth.GoogleAuthProvider.credentialFromResult(result);
-
+    const credential = GoogleAuthProvider.credentialFromResult(result);
     if (!credential) {
       return { error: true };
     }
@@ -53,16 +55,15 @@ export function AuthProvider({ children }) {
     setAccessToken(token);
     setUserLoggedIn(true);
 
-    // Access Firestore via the global firebaseDb object
-    const userDocRef = window.firebaseDb.doc(`users/${email}`);
-    const userDoc = await userDocRef.get();
-    setIsAdmin(userDoc.exists ? userDoc.data().isAdmin : false);
+    const userDocRef = doc(db, "users", email);
+    const userDoc = await getDoc(userDocRef);
+    setIsAdmin(userDoc.exists() ? userDoc.data().isAdmin : false);
 
     setCurrentUser({ email });
   };
 
   useEffect(() => {
-    const unsubscribe = window.firebaseAuth().onAuthStateChanged(async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
       if (user) {
         const token = await user.getIdToken(true);
@@ -70,9 +71,9 @@ export function AuthProvider({ children }) {
         setCurrentUser(user);
         setUserLoggedIn(true);
 
-        const userDocRef = window.firebaseDb.doc(`users/${user.uid}`);
-        const userDoc = await userDocRef.get();
-        setIsAdmin(userDoc.exists ? userDoc.data().isAdmin : false);
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        setIsAdmin(userDoc.exists() ? userDoc.data().isAdmin : false);
       } else {
         setCurrentUser(null);
         setUserLoggedIn(false);
@@ -100,3 +101,4 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
