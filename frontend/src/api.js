@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const fetchEvents = async () => {
   const response = await axios.get(`https://evently-km2e.onrender.com/api/events`);
+  console.log(response.data)
   return response.data;
 };
 
