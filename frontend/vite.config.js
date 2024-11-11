@@ -13,7 +13,11 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@react-oauth/google'],
+      external: [
+        "firebase/app",
+        "firebase/auth",
+        "firebase/firestore",
+      ],
     },
   },
 });
