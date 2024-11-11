@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from '../contexts/authContext';
+import { useAuth, doSignOut } from '../contexts/authContext';
 import { useNavigate } from "react-router-dom";
 
 function Account() {
