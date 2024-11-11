@@ -86,18 +86,6 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const doSignOut = async () => {
-    try {
-      await signOut(auth);
-      setCurrentUser(null);
-      setUserLoggedIn(false);
-      setIsAdmin(false);
-      setAccessToken(null);
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   const value = {
     currentUser,
     userLoggedIn,
@@ -105,7 +93,6 @@ export function AuthProvider({ children }) {
     isAdmin,
     accessToken,
     doSignInWithGoogle,
-    doSignOut
   };
 
   return (
