@@ -2,7 +2,6 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [commonjs()],
   server: {
     proxy: {
       '/api': {
