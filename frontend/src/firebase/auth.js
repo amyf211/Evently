@@ -1,5 +1,5 @@
 // auth.js
-import { auth, db } from "../firebase";
+import { auth, db } from "./firebase";
 import { useAuth } from "../contexts/authContext";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
