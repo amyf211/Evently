@@ -1,4 +1,6 @@
-// Your web app's Firebase configuration
+// firebase.js
+
+// Initialize Firebase with configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC04b-XYc3zfYYZv4tpbeQzn98rVk7Uir8",
   authDomain: "evently-7faad.firebaseapp.com",
@@ -9,9 +11,10 @@ const firebaseConfig = {
   measurementId: "G-QB5KRRDPBC"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+// Initialize Firebase app, auth, and Firestore using global `firebase` object
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-export { app, auth, db };
+// Export Firebase services for use in other files
+export { auth, db };
