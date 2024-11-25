@@ -1,0 +1,12 @@
+{
+  "name": "evently",
+  "version": "1.0.0",
+  "description": "The code in this repo is for Evently, an event management website for music based events!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

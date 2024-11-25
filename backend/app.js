@@ -8,7 +8,7 @@ const {
 
 const app = express();
 
-app.use(cors({ origin: 'https://evently2024.netlify.app' }));
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 app.get('/api/events', getEventsController);               
