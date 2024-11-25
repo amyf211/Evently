@@ -1,55 +1,42 @@
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 10px;
-}
-
-.links {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  float: right;
-  border-left: 1px solid #bbb;
-}
-
-.links:hover {
-  background-color: #0c99df; 
-}
-
-.header {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: hidden;
-  background: #0cc0df;
-  color: white;
-}
-
-#header-title {
-  display: block;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  float: left;
-  margin: 0px;
-  padding-top: 5px;
-  font-size: xx-large;
-  font-weight: 700;
-}
-
-.login-title {
-  color: #0cc0df;
-  font-size: 70px;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: center;
 }
 
-.google-button {
-  width: 200px;
-  height: 50px;
-  background-color: #0cc0df;
-  color: white;
-  border-style: none;
-  text-align: center;
-  font-size: medium;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
 }

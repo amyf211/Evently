@@ -1,26 +1,7 @@
-// vite.config.js
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://evently-km2e.onrender.com',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
-  build: {
-    rollupOptions: {
-      external: [
-        "firebase/app",
-        "firebase/auth",
-        "firebase/firestore",
-      ],
-    },
-  },
-});
-
-
-
+  plugins: [react()],
+})
