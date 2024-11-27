@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "echo 'Nothing to build'", 
-        "start": "node listen.js"              
-
+    "test": "jest",
+    "build": "echo 'Nothing to build'",
+    "start": "node listen.js"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +22,9 @@
     "gapi-script": "^1.2.0",
     "google-auth-library": "^9.14.2",
     "googleapis": "^105.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
