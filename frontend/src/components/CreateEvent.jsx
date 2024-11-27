@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-// import { Navigate } from 'react-router-dom';
 import axios from 'axios';
-// import { useAuth } from '../contexts/authContext';
 
 const CreateEvent = () => {
-//   const { isAdmin, userLoggedIn } = useAuth();
 
-//   if (!userLoggedIn) return <Navigate to="/login" replace />;
 
   const [eventData, setEventData] = useState({
     eventName: '',

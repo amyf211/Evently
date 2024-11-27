@@ -7,8 +7,8 @@ function Account() {
     const { currentUser, doSignOut } = useAuth();
 
     const handleLogout = async () => {
-        await doSignOut();  // Call the doSignOut function from context
-        navigate('/login');  // Redirect to the login page
+        await doSignOut();
+        navigate('/login');
     };
 
     return (

@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase/firebase';
+import { auth, db } from '../firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doSignOut } from '../firebase/auth'; // Import doSignOut here
+import { doc, getDoc } from 'firebase/firestore';
+import { doSignOut } from '../firebase/auth';
 
 const AuthContext = React.createContext();
 
@@ -12,6 +13,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,12 +22,28 @@ export function AuthProvider({ children }) {
     }, []);
 
     async function initializeUser(user) {
+        setLoading(true);
         if (user) {
-            setCurrentUser({ ...user });
-            setUserLoggedIn(true);
+            try {
+                const userRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setIsAdmin(userData.isAdmin || false);
+                } else {
+                    console.warn("No Firestore document found for user:", user.uid);
+                }
+
+                setCurrentUser({ ...user });
+                setUserLoggedIn(true);
+            } catch (error) {
+                console.error("Error fetching Firestore user document:", error);
+            }
         } else {
             setCurrentUser(null);
             setUserLoggedIn(false);
+            setIsAdmin(false);
         }
         setLoading(false);
     }
@@ -33,8 +51,9 @@ export function AuthProvider({ children }) {
     const value = {
         currentUser,
         userLoggedIn,
+        isAdmin,
         loading,
-        doSignOut, // Add doSignOut here
+        doSignOut,
     };
 
     return (
