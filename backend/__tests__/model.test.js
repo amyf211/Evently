@@ -3,6 +3,9 @@ const { createEvent, getEvents, getEventById } = require('../eventsModel');
 jest.mock('axios'); // Mock axios globally
 
 describe('eventsModel', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  }); 
   describe('createEvent', () => {
     it('should create an event successfully', async () => {
       // Mock the successful response of the POST request
@@ -11,7 +14,7 @@ describe('eventsModel', () => {
         name: { html: 'Test Event' },
         start: { utc: '2024-11-27T10:00:00Z' },
         end: { utc: '2024-11-27T12:00:00Z' },
-        currency: 'USD',
+        currency: 'GBP',
       };
 
       axios.post.mockResolvedValue({ data: mockEventData });
@@ -19,7 +22,7 @@ describe('eventsModel', () => {
       const eventName = 'Test Event';
       const startDateUtc = '2024-11-27T10:00:00Z';
       const endDateUtc = '2024-11-27T12:00:00Z';
-      const currency = 'USD';
+      const currency = 'GBP';
 
       const result = await createEvent(eventName, startDateUtc, endDateUtc, currency);
 
@@ -27,14 +30,17 @@ describe('eventsModel', () => {
       expect(axios.post).toHaveBeenCalledTimes(1);
     });
 
-    it.skip('should throw an error if event creation fails', async () => {
+    it('should throw an error if event creation fails', async () => {
       // Mock the error response for the POST request
-      axios.post.mockRejectedValue(new Error('Event creation failed'));
-
+      axios.post.mockRejectedValue({
+        response: {
+          data: 'Event creation failed',
+        },
+      });
       const eventName = 'Test Event';
       const startDateUtc = '2024-11-27T10:00:00Z';
       const endDateUtc = '2024-11-27T12:00:00Z';
-      const currency = 'USD';
+      const currency = 'GBP';
 
       await expect(createEvent(eventName, startDateUtc, endDateUtc, currency))
         .rejects
@@ -53,16 +59,20 @@ describe('eventsModel', () => {
       expect(axios.get).toHaveBeenCalledTimes(1);
     });
 
-    it.skip('should throw an error if fetching events fails', async () => {
+    it('should throw an error if fetching events fails', async () => {
       // Mock the error response for the GET request
-      axios.get.mockRejectedValue(new Error('Failed to fetch events'));
+      axios.get.mockRejectedValue({
+        response: {
+          data: 'Failed to fetch events',
+        },
+      });
 
       await expect(getEvents()).rejects.toThrow('Failed to fetch events');
     });
   });
 
   describe('getEventById', () => {
-    it.skip('should fetch a single event by ID successfully', async () => {
+    it('should fetch a single event by ID successfully', async () => {
       const mockEventData = { id: '1', name: { html: 'Event 1' } };
       axios.get.mockResolvedValue({ data: mockEventData });
 

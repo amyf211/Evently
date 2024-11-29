@@ -21,8 +21,8 @@ describe('Events Controller', () => {
   describe('GET /events', () => {
     it('should return a list of events', async () => {
       const mockEvents = [
-        { id: '1', eventName: 'Event 1', startDate: '2024-01-01', endDate: '2024-01-02', currency: 'USD' },
-        { id: '2', eventName: 'Event 2', startDate: '2024-02-01', endDate: '2024-02-02', currency: 'USD' },
+        { id: '1', eventName: 'Event 1', startDate: '2024-01-01', endDate: '2024-01-02', currency: 'GBP' },
+        { id: '2', eventName: 'Event 2', startDate: '2024-02-01', endDate: '2024-02-02', currency: 'GBP' },
       ];
 
       // Mock the getEvents function to return mock events
@@ -50,7 +50,7 @@ describe('Events Controller', () => {
         eventName: 'New Event',
         startDate: '2024-01-01',
         endDate: '2024-01-02',
-        currency: 'USD',
+        currency: 'GBP',
       };
 
       const createdEvent = {
@@ -76,7 +76,7 @@ describe('Events Controller', () => {
         eventName: 'New Event',
         startDate: '2024-01-01',
         endDate: '2024-01-02',
-        currency: 'USD',
+        currency: 'GBP',
       };
 
       const response = await request(app).post('/events').send(newEventData);
@@ -88,7 +88,7 @@ describe('Events Controller', () => {
   // Test for getEventByIdController
   describe('GET /events/:id', () => {
     it('should return a single event by ID', async () => {
-      const mockEvent = { id: '1', eventName: 'Event 1', startDate: '2024-01-01', endDate: '2024-01-02', currency: 'USD' };
+      const mockEvent = { id: '1', eventName: 'Event 1', startDate: '2024-01-01', endDate: '2024-01-02', currency: 'GBP' };
 
       // Mock the getEventById function to return a mock event
       getEventById.mockResolvedValue(mockEvent);

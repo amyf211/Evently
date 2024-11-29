@@ -34,8 +34,8 @@ async function createEvent(eventName, startDateUtc, endDateUtc, currency, summar
         );
         return response.data;
     } catch (error) {
-        console.error('Error creating event:', error.response.data || error.message);
-        throw error;
+        console.error('Error creating event:', error.response?.data || error.message);
+        throw new Error('Event creation failed');
     }
 }
 
@@ -48,8 +48,8 @@ async function getEvents() {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching events:', error.response.data || error.message);
-        throw error;
+        console.error('Error fetching events:', error.response?.data || error.message);
+        throw new Error('Failed to fetch events'); // Throw a clear and consistent error
     }
 }
 
