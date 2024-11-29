@@ -8,7 +8,7 @@ const {
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: 'https://evently-km2e.onrender.com' }));
 app.use(express.json());
 
 app.get('/api/events', getEventsController);               
