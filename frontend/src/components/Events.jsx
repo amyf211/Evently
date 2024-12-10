@@ -36,8 +36,8 @@ const Events = () => {
       <h2>Events</h2>
       <ul className='flex-container'>
         {events.map(event => (
-          <li key={event.id}>
-            <Link to={`/events/${event.id}`}>
+          <li className='event-list' key={event.id}>
+            <Link to={`/events/${event.id}`} className='list-links'>
               {event.name.text}
             </Link>
             <p>Date: {event.start.local.slice(0, 10)}</p>
