@@ -34,7 +34,7 @@ const Events = () => {
   return (
     <div>
       <h2>Events</h2>
-      <ul>
+      <ul className='flex-container'>
         {events.map(event => (
           <li key={event.id}>
             <Link to={`/events/${event.id}`}>

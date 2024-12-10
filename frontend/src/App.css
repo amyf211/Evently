@@ -5,6 +5,14 @@ body{
 
 ul {
   list-style-type: none;
+  border:#0cc0df;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .links {
