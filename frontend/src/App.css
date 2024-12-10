@@ -8,8 +8,8 @@ ul {
 }
 
 .event-list {
-  border: #0cc0df;
-  margin: 5%;
+  border: 2px #0cc0df;
+  margin: 10px;
   border-radius: 25px;
 }
 
