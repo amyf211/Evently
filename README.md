@@ -10,17 +10,9 @@ As a user, you can browse events and add them directly to your google calendar.
 
 Here is the link to the hosted site: https://evently2024.netlify.app
 
+Evently demonstration video: https://youtu.be/aNcu5NRtv40
+
 ## Accounts
-
-Below are the test accounts for the Evently platform and the organisation ID if needed, although this is currently hardcoded into the app.
-
-**Admin Login:**   
-amyfisher211@gmail.com 
-1b5QsBxDUF
-
-**User Login:**   
-amydreamlandfiles@gmail.com 
-Evently321.
 
 Organisation ID: 2398883364363
 
