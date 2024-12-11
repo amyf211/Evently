@@ -11,6 +11,7 @@ import CreateEvent from './components/CreateEvent';
 import Login from './components/Login';
 import Account from './components/Account';
 import EventPage from './components/EventPage';
+import Register from './components/Register';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
       <Route path="/events" element={<Events />} />
       <Route path="/create-event" element={<CreateEvent />} />
       <Route path="/events/:id" element={<EventPage />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
 </AuthProvider>
 
