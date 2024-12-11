@@ -15,7 +15,7 @@ function Account() {
         <>
             <h2>Account</h2>
             <p>You are currently logged in as {currentUser.email}</p>
-            <button onClick={handleLogout}>Logout</button>
+            <button className="login-button" onClick={handleLogout}>Logout</button>
         </>
     );
 }

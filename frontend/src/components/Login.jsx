@@ -66,6 +66,7 @@ const Login = () => {
                         </div>
                         {errorMessage && <span>{errorMessage}</span>}
                         <button
+                            className="login-button"
                             type="submit"
                             disabled={isSigningIn}
                         >
@@ -74,7 +75,7 @@ const Login = () => {
                     </form>
                     <p>Don't have an account? <Link to={'/register'}>Sign up</Link></p>
                     <button
-                        className="google-button"
+                        className="login-button"
                         disabled={isSigningIn}
                         onClick={onGoogleSignIn}
                     >

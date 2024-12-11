@@ -14,6 +14,14 @@ Evently demonstration video: https://youtu.be/aNcu5NRtv40
 
 ## Accounts
 
+### Admin
+libakid932@paxnw.com
+Evently321.
+
+### User
+rarata1225@jameagle.com
+Evently321.
+
 Organisation ID: 2398883364363
 
 ## Cloning the Repo and Project Setup
