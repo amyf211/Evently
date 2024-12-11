@@ -1,62 +1,89 @@
-import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { doSignInWithGoogle } from "../firebase/auth";
-import { useAuth } from "../contexts/authContext";
+import React, { useState } from 'react';
+import { Navigate, Link } from 'react-router-dom';
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth';
+import { useAuth } from '../contexts/authContext';
 
 const Login = () => {
-  const { userLoggedIn } = useAuth();
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+    const { userLoggedIn } = useAuth();
 
-  const onGoogleSignIn = async (e) => {
-    e.preventDefault();
-    setErrorMessage("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isSigningIn, setIsSigningIn] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    if (!isSigningIn) {
-      setIsSigningIn(true);
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (!isSigningIn) {
+            setIsSigningIn(true);
+            try {
+                await doSignInWithEmailAndPassword(email, password);
+            } catch (error) {
+                setErrorMessage(error.message);
+                setIsSigningIn(false);
+            }
+        }
+    };
 
-      try {
-        await doSignInWithGoogle();
-        console.log("Google Sign-In successful");
-      } catch (error) {
-        console.error("Error during Google Sign-In:", error);
-        setErrorMessage(
-          "Failed to sign in with Google. Please try again later."
-        );
-      } finally {
-        setIsSigningIn(false);
-      }
-    }
-  };
+    const onGoogleSignIn = async (e) => {
+        e.preventDefault();
+        if (!isSigningIn) {
+            setIsSigningIn(true);
+            try {
+                await doSignInWithGoogle();
+            } catch (err) {
+                setErrorMessage(err.message);
+                setIsSigningIn(false);
+            }
+        }
+    };
 
-
-  if (userLoggedIn) {
-    return <Navigate to="/home" replace={true} />;
-  }
-
-  return (
-    <div>
-      <main>
+    return (
         <div>
-          <h1 className="login-title">Evently</h1>
-
-          <button
-            className="google-button"
-            disabled={isSigningIn}
-            onClick={onGoogleSignIn}
-          >
-            {isSigningIn ? "Signing In..." : "Continue with Google"}
-          </button>
-          
-          {errorMessage && (
-            <p className="error-message" style={{ color: "red" }}>
-              {errorMessage}
-            </p>
-          )}
+            {userLoggedIn && <Navigate to={'/home'} replace={true} />}
+            <main>
+                <div>
+                    <h1>Evently</h1>
+                    <form onSubmit={onSubmit}>
+                        <div>
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                autoComplete="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                autoComplete="current-password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        {errorMessage && <span>{errorMessage}</span>}
+                        <button
+                            type="submit"
+                            disabled={isSigningIn}
+                        >
+                            {isSigningIn ? 'Signing In...' : 'Sign In'}
+                        </button>
+                    </form>
+                    <p>Don't have an account? <Link to={'/register'}>Sign up</Link></p>
+                    <button
+                        className="google-button"
+                        disabled={isSigningIn}
+                        onClick={onGoogleSignIn}
+                    >
+                        {isSigningIn ? 'Signing In...' : 'Continue with Google'}
+                    </button>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  );
+    );
 };
 
 export default Login;

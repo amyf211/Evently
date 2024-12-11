@@ -2,6 +2,7 @@ import { auth, db } from "./firebase";
 import {
   signInWithPopup,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -12,7 +13,6 @@ export const doSignInWithGoogle = async () => {
     const user = result.user;
 
     const userRef = doc(db, "users", user.uid);
-
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
@@ -30,6 +30,27 @@ export const doSignInWithGoogle = async () => {
     return user;
   } catch (error) {
     console.error("Error during Google Sign-In:", error);
+    throw error;
+  }
+};
+
+export const doSignInWithEmailAndPassword = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      console.error("User document does not exist in Firestore.");
+    } else {
+      console.log("User document found in Firestore.");
+    }
+
+    return user;
+  } catch (error) {
+    console.error("Error during Email/Password Sign-In:", error);
     throw error;
   }
 };
