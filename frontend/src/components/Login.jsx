@@ -42,7 +42,7 @@ const Login = () => {
             {userLoggedIn && <Navigate to={'/home'} replace={true} />}
             <main>
                 <div>
-                    <h1>Evently</h1>
+                    <h1 className='login-title'>Evently</h1>
                     <form onSubmit={onSubmit}>
                         <div>
                             <label>Email</label>
