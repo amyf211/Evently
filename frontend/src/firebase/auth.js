@@ -41,21 +41,30 @@ export const doSignInWithGoogle = async () => {
 
 export const doSignInWithEmailAndPassword = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    // Sign in the user with email and password
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    const user = result.user;
 
+    // Check if the user document exists in Firestore
     const userRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
-      console.error("User document does not exist in Firestore.");
+      // If not, create a new user document
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || "Anonymous", // Default if no display name
+        isAdmin: false,
+      });
+      console.log("User document created in Firestore.");
     } else {
-      console.log("User document found in Firestore.");
+      console.log("User document already exists in Firestore.");
     }
 
     return user;
   } catch (error) {
-    console.error("Error during Email/Password Sign-In:", error);
+    console.error("Error during Email Sign-In:", error);
     throw error;
   }
 };
